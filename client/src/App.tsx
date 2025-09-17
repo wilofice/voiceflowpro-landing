@@ -4,10 +4,10 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/not-found";
-import Home from "@/pages/home";
-import Pricing from "@/pages/pricing";
-import Download from "@/pages/download";
-import Checkout from "@/pages/checkout";
+import Home from "@/pages/home.tsx";
+import Pricing from "@/pages/pricing.tsx";
+import Download from "@/pages/download.tsx";
+import Checkout from "@/pages/checkout.tsx";
 
 function Router() {
   return (
