@@ -35,7 +35,8 @@ export class MemStorage implements IStorage {
   async createUser(insertUser: InsertUser): Promise<User> {
     const id = randomUUID();
     const user: User = { 
-      ...insertUser, 
+      ...insertUser,
+      email: insertUser.email ?? null, // Ensure email is string | null, not string | null | undefined
       id,
       stripeCustomerId: null,
       stripeSubscriptionId: null,
