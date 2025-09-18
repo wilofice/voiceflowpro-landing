@@ -46,9 +46,22 @@ export const insertContactMessageSchema = createInsertSchema(contactMessages).pi
   message: true,
 });
 
+export const authSignupSchema = z.object({
+  username: z.string().min(3).max(32),
+  password: z.string().min(8),
+  email: z.string().email(),
+});
+
+export const authLoginSchema = authSignupSchema.pick({
+  username: true,
+  password: true,
+});
+
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
 export type InsertNewsletterSignup = z.infer<typeof insertNewsletterSignupSchema>;
 export type NewsletterSignup = typeof newsletterSignups.$inferSelect;
 export type InsertContactMessage = z.infer<typeof insertContactMessageSchema>;
 export type ContactMessage = typeof contactMessages.$inferSelect;
+export type AuthSignupInput = z.infer<typeof authSignupSchema>;
+export type AuthLoginInput = z.infer<typeof authLoginSchema>;

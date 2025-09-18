@@ -3,10 +3,15 @@ import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Mic, Menu } from "lucide-react";
+import { useAuth } from "@/hooks/use-auth";
+import { apiRequest } from "@/lib/queryClient";
+import { useToast } from "@/hooks/use-toast";
 
 export default function Header() {
-  const [location] = useLocation();
+  const [, setLocation] = useLocation();
   const [isOpen, setIsOpen] = useState(false);
+  const { user, setUser } = useAuth();
+  const { toast } = useToast();
 
   const navigation = [
     { name: "Features", href: "/#features" },
@@ -15,6 +20,21 @@ export default function Header() {
     { name: "FAQ", href: "/#faq" },
     { name: "Contact", href: "/#contact" },
   ];
+
+  const handleLogout = async () => {
+    try {
+      await apiRequest("POST", "/api/auth/logout");
+      setUser(null);
+      toast({ title: "Signed out" });
+      setLocation("/");
+    } catch (error: any) {
+      toast({
+        title: "Unable to log out",
+        description: error?.message ?? "Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
 
   return (
     <nav className="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-md border-b border-border">
@@ -40,6 +60,27 @@ export default function Header() {
             ))}
           </div>
 
+          <div className="hidden md:flex items-center space-x-4">
+            {user ? (
+              <>
+                <span className="text-sm text-muted-foreground">Hi, {user.username}</span>
+                <Button variant="outline" onClick={handleLogout}>
+                  Log out
+                </Button>
+              </>
+            ) : (
+              <>
+                <Link
+                  href="/login"
+                  className="text-sm text-muted-foreground hover:text-foreground"
+                >
+                  Sign in
+                </Link>
+                <Button onClick={() => setLocation("/signup")}>Create account</Button>
+              </>
+            )}
+          </div>
+
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild className="md:hidden">
               <Button variant="ghost" size="icon" data-testid="mobile-menu-toggle">
@@ -59,6 +100,35 @@ export default function Header() {
                     {item.name}
                   </a>
                 ))}
+
+                <div className="pt-4 border-t border-border">
+                  {user ? (
+                    <div className="flex flex-col space-y-3">
+                      <span className="text-muted-foreground text-sm">Signed in as {user.username}</span>
+                      <Button variant="outline" onClick={() => {
+                        setIsOpen(false);
+                        void handleLogout();
+                      }}>
+                        Log out
+                      </Button>
+                    </div>
+                  ) : (
+                    <div className="flex flex-col space-y-3">
+                      <Button variant="outline" onClick={() => {
+                        setIsOpen(false);
+                        setLocation("/login");
+                      }}>
+                        Sign in
+                      </Button>
+                      <Button onClick={() => {
+                        setIsOpen(false);
+                        setLocation("/signup");
+                      }}>
+                        Create account
+                      </Button>
+                    </div>
+                  )}
+                </div>
               </div>
             </SheetContent>
           </Sheet>

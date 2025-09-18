@@ -1,15 +1,18 @@
 import { useStripe, Elements, PaymentElement, useElements } from '@stripe/react-stripe-js';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { useLocation } from 'wouter';
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
-import { stripePromise, STRIPE_PRICES } from "@/lib/stripe";
+import { stripePromise, STRIPE_PRICES, StripePriceKey } from "@/lib/stripe";
+import { useAuth } from "@/hooks/use-auth";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-const CheckoutForm = ({ plan, billing }: { plan: string; billing: string }) => {
+const CheckoutForm = ({ plan, billing }: { plan: "pro" | "team"; billing: "monthly" | "annual" }) => {
   const stripe = useStripe();
   const elements = useElements();
   const { toast } = useToast();
@@ -50,16 +53,16 @@ const CheckoutForm = ({ plan, billing }: { plan: string; billing: string }) => {
     pro: {
       name: "Pro Plan",
       price: billing === 'annual' ? 290 : 29,
-      period: billing === 'annual' ? 'year' : 'month'
+      period: billing === 'annual' ? 'year' : 'month',
     },
     team: {
       name: "Team Plan",
       price: billing === 'annual' ? 490 : 49,
-      period: billing === 'annual' ? 'year' : 'month'
-    }
-  };
+      period: billing === 'annual' ? 'year' : 'month',
+    },
+  } as const;
 
-  const currentPlan = planDetails[plan as keyof typeof planDetails];
+  const currentPlan = planDetails[plan];
 
   return (
     <div className="max-w-2xl mx-auto">
@@ -92,39 +95,157 @@ const CheckoutForm = ({ plan, billing }: { plan: string; billing: string }) => {
 };
 
 export default function Checkout() {
-  const [clientSecret, setClientSecret] = useState("");
+  const { toast } = useToast();
+  const [clientSecret, setClientSecret] = useState<string | null>(null);
   const [customerInfo, setCustomerInfo] = useState({ name: "", email: "" });
-  const [plan, setPlan] = useState("pro");
-  const [billing, setBilling] = useState("monthly");
+  const [isCreatingSubscription, setIsCreatingSubscription] = useState(false);
+  const { user, isLoading: isAuthLoading } = useAuth();
+  const [, navigate] = useLocation();
+
+  const urlState = useMemo(() => {
+    if (typeof window === 'undefined') {
+      return { plan: 'pro' as const, billing: 'monthly' as const, sanitized: false };
+    }
+
+    const params = new URLSearchParams(window.location.search);
+    const planParam = params.get('plan')?.toLowerCase() ?? 'pro';
+    const billingParam = params.get('billing')?.toLowerCase() ?? 'monthly';
+
+    type PlanOption = 'pro' | 'team';
+    type BillingOption = 'monthly' | 'annual';
+
+    const plan: PlanOption = planParam === 'team' ? 'team' : 'pro';
+    const billing: BillingOption = billingParam === 'annual' ? 'annual' : 'monthly';
+
+    return {
+      plan,
+      billing,
+      sanitized: plan !== planParam || billing !== billingParam,
+    };
+  }, []);
+
+  const { plan, billing, sanitized } = urlState;
+
+  const loginRedirect = useMemo(() => {
+    if (typeof window === 'undefined') {
+      return '/checkout';
+    }
+
+    return `${window.location.pathname}${window.location.search}`;
+  }, []);
 
   useEffect(() => {
-    // Get plan and billing info from URL params
-    const urlParams = new URLSearchParams(window.location.search);
-    const urlPlan = urlParams.get('plan') || 'pro';
-    const urlBilling = urlParams.get('billing') || 'monthly';
-    setPlan(urlPlan);
-    setBilling(urlBilling);
-
-    // Create subscription when we have customer info
-    if (customerInfo.name && customerInfo.email) {
-      const priceId = STRIPE_PRICES[`${urlPlan.toUpperCase()}_${urlBilling.toUpperCase()}` as keyof typeof STRIPE_PRICES];
-      
-      apiRequest("POST", "/api/create-subscription", {
-        priceId,
-        email: customerInfo.email,
-        name: customerInfo.name
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          setClientSecret(data.clientSecret);
-        })
-        .catch((error) => {
-          console.error('Error creating subscription:', error);
-        });
+    if (sanitized) {
+      toast({
+        title: "Using default checkout settings",
+        description: "We adjusted your selection to a supported plan and billing cycle.",
+      });
     }
-  }, [customerInfo]);
+  }, [sanitized, toast]);
 
-  if (!customerInfo.name || !customerInfo.email) {
+  useEffect(() => {
+    setClientSecret(null);
+  }, [plan, billing]);
+
+  useEffect(() => {
+    setCustomerInfo((current) => ({
+      name: current.name || user?.username || "",
+      email: current.email || user?.email || "",
+    }));
+  }, [user]);
+
+  if (isAuthLoading) {
+    return (
+      <div className="min-h-screen bg-background text-foreground">
+        <Header />
+        <main className="pt-24 pb-16">
+          <div className="container mx-auto px-4">
+            <div className="flex items-center justify-center h-64">
+              <div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full" />
+            </div>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
+  if (!user) {
+    return (
+      <div className="min-h-screen bg-background text-foreground">
+        <Header />
+        <main className="pt-24 pb-16">
+          <div className="container mx-auto px-4">
+            <Card className="max-w-xl mx-auto">
+              <CardHeader>
+                <CardTitle>Sign in to continue</CardTitle>
+                <CardDescription>
+                  Create an account or sign in to finish setting up your subscription.
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="flex flex-col space-y-4">
+                <Button onClick={() => navigate(`/login?redirect=${encodeURIComponent(loginRedirect)}`)}>
+                  Sign in
+                </Button>
+                <Button
+                  variant="outline"
+                  onClick={() => navigate(`/signup?plan=${plan}&billing=${billing}`)}
+                >
+                  Create account
+                </Button>
+              </CardContent>
+            </Card>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
+  const handleContinue = async () => {
+    if (!customerInfo.name || !customerInfo.email) {
+      return;
+    }
+
+    const priceKey = `${plan.toUpperCase()}_${billing.toUpperCase()}` as StripePriceKey;
+    const priceId = STRIPE_PRICES[priceKey];
+
+    if (!priceId) {
+      toast({
+        title: "Unable to start checkout",
+        description: "Pricing configuration is missing. Please contact support.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    try {
+      setIsCreatingSubscription(true);
+      const response = await apiRequest("POST", "/api/create-subscription", {
+        plan,
+        billing,
+        email: customerInfo.email,
+        name: customerInfo.name,
+      });
+
+      const data = await response.json();
+      if (!data?.clientSecret) {
+        throw new Error("Missing client secret");
+      }
+
+      setClientSecret(data.clientSecret);
+    } catch (error: any) {
+      toast({
+        title: "Subscription error",
+        description: error?.message ?? "Failed to create Stripe subscription.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsCreatingSubscription(false);
+    }
+  };
+
+  if (!customerInfo.name || !customerInfo.email || !clientSecret) {
     return (
       <div className="min-h-screen bg-background text-foreground">
         <Header />
@@ -157,35 +278,15 @@ export default function Checkout() {
                     />
                   </div>
                   <Button
-                    onClick={() => {
-                      if (customerInfo.name && customerInfo.email) {
-                        // This will trigger the useEffect to create subscription
-                      }
-                    }}
+                    onClick={handleContinue}
                     className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
-                    disabled={!customerInfo.name || !customerInfo.email}
+                    disabled={!customerInfo.name || !customerInfo.email || isCreatingSubscription}
                     data-testid="customer-info-continue"
                   >
-                    Continue to Payment
+                    {isCreatingSubscription ? "Preparing checkout..." : "Continue to Payment"}
                   </Button>
                 </div>
               </div>
-            </div>
-          </div>
-        </main>
-        <Footer />
-      </div>
-    );
-  }
-
-  if (!clientSecret) {
-    return (
-      <div className="min-h-screen bg-background text-foreground">
-        <Header />
-        <main className="pt-24 pb-16">
-          <div className="container mx-auto px-4">
-            <div className="flex items-center justify-center h-64">
-              <div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full" data-testid="checkout-loading" />
             </div>
           </div>
         </main>
@@ -199,7 +300,7 @@ export default function Checkout() {
       <Header />
       <main className="pt-24 pb-16">
         <div className="container mx-auto px-4">
-          <Elements stripe={stripePromise} options={{ clientSecret }}>
+          <Elements stripe={stripePromise} options={{ clientSecret: clientSecret as string }}>
             <CheckoutForm plan={plan} billing={billing} />
           </Elements>
         </div>

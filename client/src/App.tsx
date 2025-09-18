@@ -8,6 +8,9 @@ import Home from "@/pages/home.tsx";
 import Pricing from "@/pages/pricing.tsx";
 import Download from "@/pages/download.tsx";
 import Checkout from "@/pages/checkout.tsx";
+import Success from "@/pages/success.tsx";
+import Signup from "@/pages/signup.tsx";
+import Login from "@/pages/login.tsx";
 
 function Router() {
   return (
@@ -16,6 +19,9 @@ function Router() {
       <Route path="/pricing" component={Pricing} />
       <Route path="/download" component={Download} />
       <Route path="/checkout" component={Checkout} />
+      <Route path="/success" component={Success} />
+      <Route path="/signup" component={Signup} />
+      <Route path="/login" component={Login} />
       <Route component={NotFound} />
     </Switch>
   );

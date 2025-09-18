@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "wouter";
+import { useLocation } from "wouter";
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
@@ -7,6 +7,7 @@ import { Check, X } from "lucide-react";
 
 export default function Pricing() {
   const [isAnnual, setIsAnnual] = useState(true);
+  const [, setLocation] = useLocation();
 
   const plans = [
     {
@@ -65,12 +66,15 @@ export default function Pricing() {
   ];
 
   const handlePlanSelection = (planName: string) => {
-    if (planName === "Pro") {
-      // Redirect to checkout with Pro plan
-      window.location.href = `/checkout?plan=pro&billing=${isAnnual ? 'annual' : 'monthly'}`;
-    } else if (planName === "Team") {
-      // Redirect to contact or team checkout
-      window.location.href = `/checkout?plan=team&billing=${isAnnual ? 'annual' : 'monthly'}`;
+    const planSlug = planName.toLowerCase();
+
+    if (planSlug === "starter") {
+      setLocation(`/signup?plan=${planSlug}`);
+      return;
+    }
+
+    if (planSlug === "pro" || planSlug === "team") {
+      setLocation(`/checkout?plan=${planSlug}&billing=${isAnnual ? "annual" : "monthly"}`);
     }
   };
 

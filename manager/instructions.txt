@@ -1,0 +1,146 @@
+Please start identifying key actions in order to make checkout with stripe, software download and user login/sign up fully working 
+
+Also I noted some bugs: 
+
+
+Not implemented action Pricing page : 
+http://localhost:5555/pricing
+
+Button “Get Started” is not working for “Free” option
+
+Error on Checkout : 
+http://localhost:5555/checkout?plan=pro&billing=annual
+
+client:495 [vite] connecting...
+client:618 [vite] connected.
+react-dom.development.js:29895 Download the React DevTools for a better development experience: https://reactjs.org/link/react-devtools
+checkout?plan=pro&billing=annual:1  Access to font at 'https://fonts.gstatic.com/s/inter/v20/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7W0Q5nw.woff2' from origin 'http://localhost:5555' has been blocked by CORS policy: The 'Access-Control-Allow-Origin' header has a value 'http://localhost:8080' that is not equal to the supplied origin.
+UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7W0Q5nw.woff2:1   Failed to load resource: net::ERR_FAILED
+checkout?plan=pro&billing=annual:1  Access to font at 'https://fonts.gstatic.com/s/inter/v20/UcCo3FwrK3iLTcviYwYZ8UA3.woff2' from origin 'http://localhost:5555' has been blocked by CORS policy: The 'Access-Control-Allow-Origin' header has a value 'http://localhost:8080' that is not equal to the supplied origin.
+UcCo3FwrK3iLTcviYwYZ8UA3.woff2:1   Failed to load resource: net::ERR_FAILED
+stripe.js:1  You may test your Stripe.js integration over HTTP. However, live Stripe.js integrations must use HTTPS.
+value @ stripe.js:1
+:5555/api/create-subscription:1   Failed to load resource: the server responded with a status of 400 (Bad Request)
+checkout.tsx:122  Error creating subscription: Error: 400: {"error":{"message":"No such price: 'price_pro_annual'"}}
+    at throwIfResNotOk (queryClient.ts:6:11)
+    at async apiRequest (queryClient.ts:22:3)
+(anonymous) @ checkout.tsx:122
+http://localhost:5555/checkout?plan=pro&billing=annual
+
+Download page : 
+http://localhost:5555/download
+
+Download button is not not really working. 
+Need a strategy for providing the software bundle ready to download . 
+Strategy between gitpush ——— ready for download
+
+
+
+Links at the bottom in the footer are not working
+
+client:495 [vite] connecting...
+client:618 [vite] connected.
+react-dom.development.js:29895 Download the React DevTools for a better development experience: https://reactjs.org/link/react-devtools
+checkout?plan=pro&billing=annual:1  Access to font at 'https://fonts.gstatic.com/s/inter/v20/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7W0Q5nw.woff2' from origin 'http://localhost:5555' has been blocked by CORS policy: The 'Access-Control-Allow-Origin' header has a value 'http://localhost:8080' that is not equal to the supplied origin.
+UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7W0Q5nw.woff2:1   Failed to load resource: net::ERR_FAILED
+checkout?plan=pro&billing=annual:1  Access to font at 'https://fonts.gstatic.com/s/inter/v20/UcCo3FwrK3iLTcviYwYZ8UA3.woff2' from origin 'http://localhost:5555' has been blocked by CORS policy: The 'Access-Control-Allow-Origin' header has a value 'http://localhost:8080' that is not equal to the supplied origin.
+UcCo3FwrK3iLTcviYwYZ8UA3.woff2:1   Failed to load resource: net::ERR_FAILED
+stripe.js:1  You may test your Stripe.js integration over HTTP. However, live Stripe.js integrations must use HTTPS.
+value @ stripe.js:1
+:5555/api/create-subscription:1   Failed to load resource: the server responded with a status of 400 (Bad Request)
+checkout.tsx:122  Error creating subscription: Error: 400: {"error":{"message":"No such price: 'price_pro_annual'"}}
+    at throwIfResNotOk (queryClient.ts:6:11)
+    at async apiRequest (queryClient.ts:22:3)
+(anonymous) @ checkout.tsx:122
+http://localhost:5555/checkout?plan=pro&billing=annual
+
+
+-----------
+ 
+ Updated Plan
+  └ □ Review current implementation for pricing, checkout, download, and auth flows to understand gaps
+    □ Map each reported bug to its root cause and required fixes
+    □ Outline prioritized action plan for Stripe checkout, download delivery, and auth launch
+
+• Explored
+  └ List pages
+    Read pricing.tsx, checkout.tsx, stripe.ts, download.tsx
+    Search login
+    Read header.tsx
+
+> Thinking
+  I’m piecing together why there’s no login endpoint despite stored users, and mapping bugs like the free pricing option’s missing implementation tied to handlePlanSelection only supporting paid tiers. I’m also
+  investigating CORS errors with fonts, suspecting dev server proxies or service worker/header rewriting causing origin mismatches that block font loading. There’s a lot to unpack here!
+
+• Explored
+  └ Read vite.ts, schema.ts, footer.tsx, index.html
+    Search sign in client
+    Search session
+
+• Updated Plan
+  └ Reviewed pricing, checkout, download, and footer implementations to understand current behavior.
+    ✔ Review current implementation for pricing, checkout, download, and auth flows to understand gaps
+    □ Map each reported bug to its root cause and required fixes
+    □ Outline prioritized action plan for Stripe checkout, download delivery, and auth launch
+
+> Thinking
+  I’m listing each bug’s underlying issue—from missing route handling and invalid placeholders to CORS font errors and inactive buttons—and thinking about how the front-end, environment setup, and build pipeline
+  interact, so I can map each bug to a targeted fix in the code.
+
+• Updated Plan
+  └ Identified why each reported issue occurs, including missing Starter-plan handler, placeholder Stripe price IDs, stubbed download handler, and placeholder footer URLs.
+    ✔ Review current implementation for pricing, checkout, download, and auth flows to understand gaps
+    ✔ Map each reported bug to its root cause and required fixes
+    □ Outline prioritized action plan for Stripe checkout, download delivery, and auth launch
+
+> Thinking
+  I'll break down key tasks for Stripe checkout integration, free plan handling, backend login/signup endpoints with session management, and software download setup. I plan to map these to specific files and line
+  numbers to provide clear, actionable steps referencing environment configs, route updates, client form creation, and persistent session storage.
+
+• Explored
+  └ Read pricing.tsx, checkout.tsx, stripe.ts, download.tsx, footer.tsx
+
+> Thinking
+  I'm mapping out key tasks for login/signup, Stripe integration, downloads, and font CORS issues, aiming to propose concrete steps with timelines. This involves adding missing login components, improving error
+  handling, enabling free plans, securing passwords, building API routes, and setting up bundling and download features. I’ll prepare a clear, referenced plan detailing these areas next.
+
+• Updated Plan
+  └ Prepared a prioritized action roadmap covering Stripe checkout readiness, download distribution, and authentication implementation.
+    ✔ Review current implementation for pricing, checkout, download, and auth flows to understand gaps
+    ✔ Map each reported bug to its root cause and required fixes
+    ✔ Outline prioritized action plan for Stripe checkout, download delivery, and auth launch
+
+> Thinking
+  I'm gathering all findings into a clear, structured response with root causes linked to exact file lines and an organized action plan covering Stripe Checkout, Download Delivery, Authentication, UI fixes, and
+  the CORS font issue—plus recommendations for next steps and verification to help the user move forward smoothly.
+
+> Key Issues
+
+  - Starter CTA falls through because handlePlanSelection only routes Pro and Team, so clicking the free card does nothing (client/src/pages/pricing.tsx:67).
+  - Checkout bootstraps Stripe with placeholder price IDs (client/src/lib/stripe.ts:9), producing “No such price” errors when /api/create-subscription hits the live API (server/routes.ts:38).
+  - The download CTA is a stub that only logs to the console (client/src/pages/download.tsx:69), leaving users without an actual installer.
+  - Footer and download-page links point to #, so none of the social/support/legal routes resolve (client/src/components/layout/footer.tsx:21).
+  - Google Fonts requests are rejected because a cached response advertises Access-Control-Allow-Origin: http://localhost:8080; we should either host fonts locally or ensure the upstream proxy stops rewriting
+  the header.
+
+  Action Plan
+
+  - Stripe Checkout
+      - Load VITE_STRIPE_PRICE_* IDs from env instead of hard-coding placeholders, and mirror them on the server (store secrets in .env, map them in server/routes.ts).
+      - Enforce plan validation (plan + billing) server-side, return descriptive errors, and surface toast messaging in the client.
+      - Update the pricing CTA flow so Starter bypasses paid checkout (send to signup) while Pro/Team route to /checkout with verified query params.
+      - Add integration smoke tests that mock Stripe to cover payment intent/subscription creation.
+  - Download Delivery
+      - Decide on artifact hosting (e.g. GitHub Releases, S3). Add build automation that packages installers on every tagged build and publishes checksum metadata.
+      - Expose signed download URLs via a new /api/downloads/:os endpoint (streams or redirects to the hosted binary) and update handleDownload to call it.
+      - Populate release notes/system requirements URLs with either internal routes or external docs.
+  - Authentication (Login/Signup)
+      - Implement /api/signup, /api/login, /api/logout using express-session plus a persistent Drizzle-backed user store (hash with bcrypt, move off MemStorage).
+      - Add client screens for login and registration, wire them into header navigation, and store the session (React Query + context).
+      - Protect Stripe checkout/download routes so only authenticated users can proceed, and add a lightweight profile endpoint to verify sessions.
+      - Cover the auth flow with unit tests (password hashing, session handling) and end-to-end happy-path coverage.
+  - UI Cleanup & Tracking
+      - Replace footer placeholder URLs with real routes or documented TODO links; ensure social icons use actual profiles or a mailto:/calendar CTA.
+      - Host Google Fonts locally (use @fontsource packages or download WOFFs) to sidestep the CORS mismatch during development.
+
+  When you’re ready, we can prioritize implementing the Stripe env/config changes first, then expand into download distribution and auth scaffolding.

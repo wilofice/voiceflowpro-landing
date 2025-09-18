@@ -1,10 +1,41 @@
+import "dotenv/config";
 import express, { type Request, Response, NextFunction } from "express";
+import session from "express-session";
+import memorystore from "memorystore";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+const MemoryStore = memorystore(session);
+const sessionSecret =
+  process.env.SESSION_SECRET || (process.env.NODE_ENV !== "production" ? "dev-secret" : "");
+
+if (!sessionSecret) {
+  throw new Error("Missing required session secret: SESSION_SECRET");
+}
+
+if (sessionSecret === "dev-secret") {
+  log("Using development session secret. Set SESSION_SECRET in production.");
+}
+
+app.use(
+  session({
+    name: "vf.sid",
+    secret: sessionSecret,
+    resave: false,
+    saveUninitialized: false,
+    store: new MemoryStore({ checkPeriod: 1000 * 60 * 60 * 24 }),
+    cookie: {
+      httpOnly: true,
+      sameSite: "lax",
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 1000 * 60 * 60 * 24 * 7,
+    },
+  }),
+);
 
 app.use((req, res, next) => {
   const start = Date.now();
