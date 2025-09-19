@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project_plan>
+    <node title="VoiceFlowPro Legal & Compliance Delivery Track" id="vfplanding-legaltrack-root" priority="critical" status="pending">
+        <comment>Execution roadmap for legal readiness per Legal Document Drafting Action Plan, implementing-legal-documents brief, and French regulatory requirements.</comment>
+        <node title="Preparation & Research" id="vfplanding-legaltrack-research" priority="high" status="pending">
+            <comment>Assemble references, assign responsibilities, lock timeline (Day 1 drafting, Day 2 review).</comment>
+            <node title="Template Library Compilation" id="vfplanding-legaltrack-templates" priority="high" status="pending">
+                <comment>Gather Stripe/YCombinator templates, CNIL GDPR checklists, Orson.io outputs; store in shared drive with versioning.</comment>
+            </node>
+            <node title="VoiceFlowPro Requirements Matrix" id="vfplanding-legaltrack-matrix" priority="medium" status="pending">
+                <comment>Map product features (AI transcription, hybrid processing, team collaboration) to legal clauses (IP ownership, data processing, SLAs, warranties).</comment>
+            </node>
+        </node>
+        <node title="Drafting Sprint" id="vfplanding-legaltrack-drafting" priority="critical" status="pending">
+            <comment>Produce initial drafts tailored to VoiceFlowPro.</comment>
+            <node title="Terms of Service" id="vfplanding-legaltrack-tos" priority="critical" status="pending">
+                <comment>Cover service description, acceptable use, subscription &amp; billing, IP, liability, governing law (France), dispute resolution, termination.</comment>
+            </node>
+            <node title="Privacy Policy" id="vfplanding-legaltrack-privacy" priority="critical" status="pending">
+                <comment>Detail data collection, AI processing, retention, user rights (access, deletion), international transfers, security measures, DPO contact.</comment>
+            </node>
+            <node title="License Agreement" id="vfplanding-legaltrack-license" priority="high" status="pending">
+                <comment>Define usage rights for software downloads, offline models, updates, restrictions, warranty disclaimers, limitation of liability.</comment>
+            </node>
+            <node title="Mentions Légales &amp; CGV" id="vfplanding-legaltrack-frenchpages" priority="high" status="pending">
+                <comment>Produce legally required French pages: company identity, hosting, contact, VAT, CGV for SaaS sales.</comment>
+            </node>
+        </node>
+        <node title="Review & Validation" id="vfplanding-legaltrack-review" priority="high" status="pending">
+            <comment>Professional verification and compliance checks.</comment>
+            <node title="Internal QA" id="vfplanding-legaltrack-internalqa" priority="medium" status="pending">
+                <comment>Cross-team review (product, engineering, marketing) for feature alignment, messaging consistency, UX integration.</comment>
+            </node>
+            <node title="External Legal Review" id="vfplanding-legaltrack-external" priority="critical" status="pending">
+                <comment>Submit to LegalStart/CGV-Expert; budget €200-€300; incorporate feedback, obtain compliance certificates if available.</comment>
+            </node>
+            <node title="Localization &amp; Translation" id="vfplanding-legaltrack-localization" priority="medium" status="pending">
+                <comment>Provide French translations where required (Privacy, ToS, CGV) to meet local consumer laws.</comment>
+            </node>
+        </node>
+        <node title="Implementation" id="vfplanding-legaltrack-implementation" priority="high" status="pending">
+            <comment>Publish and integrate legal assets into product.</comment>
+            <node title="Website Integration" id="vfplanding-legaltrack-web" priority="high" status="pending">
+                <comment>Create legal center page, footer links, responsive layout, TL;DR sections, version history.</comment>
+            </node>
+            <node title="Product Integration" id="vfplanding-legaltrack-product" priority="medium" status="pending">
+                <comment>Embed consent flows: signup checkbox, cookie banner, download EULA modal, in-app policy links.</comment>
+            </node>
+            <node title="Governance &amp; Updates" id="vfplanding-legaltrack-governance" priority="medium" status="pending">
+                <comment>Set review cadence (quarterly), change log, notification plan, maintain legal contact info, maintain data processing records (CNIL).</comment>
+            </node>
+        </node>
+        <node title="Documentation &amp; Evidence" id="vfplanding-legaltrack-evidence" priority="medium" status="pending">
+            <comment>Keep compliance artifacts for audits.</comment>
+            <node title="Data Processing Register" id="vfplanding-legaltrack-register" priority="medium" status="pending">
+                <comment>Document processing activities, storage locations, sub-processors (OpenAI, Supabase, Stripe).</comment>
+            </node>
+            <node title="Customer Support Playbooks" id="vfplanding-legaltrack-support" priority="low" status="pending">
+                <comment>Prepare scripts for legal questions, data requests, contract inquiries, SLA escalations.</comment>
+            </node>
+        </node>
+    </node>
+</project_plan>

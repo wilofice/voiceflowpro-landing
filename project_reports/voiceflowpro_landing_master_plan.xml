@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project_plan>
+    <node title="VoiceFlowPro Landing Readiness Master Plan" id="vfplanding-master-root" priority="critical" status="in-progress">
+        <comment>North-star program for delivering a production-ready VoiceFlowPro marketing site that converts, complies, and scales. Built from executive summary, business goals, landing website task, and legal action plans.</comment>
+        <node title="Vision & Success Criteria" id="vfplanding-vision" priority="critical" status="in-progress">
+            <comment>Define measurable business outcomes and what “production-ready” means across product, revenue, trust, and growth levers.</comment>
+            <node title="North-Star Goals" id="vfplanding-vision-northstar" priority="critical" status="pending">
+                <comment>
+                    • Hit €35k MRR within 12 months (executive summary). 
+                    • Convert 6.5% of pricing visitors to signup (business goal). 
+                    • Drive ≥4% newsletter opt-in, FAQ bounce &lt;35%, average session &gt;2 minutes (attached KPIs).
+                </comment>
+            </node>
+            <node title="Launch Quality Gate" id="vfplanding-vision-qualitygate" priority="high" status="pending">
+                <comment>Checklist for production readiness: frictionless signup-to-checkout, reliable downloads, legal compliance, analytics stack, responsive UX, 99.9% uptime expectation, incident playbook.</comment>
+            </node>
+            <node title="Measurement Framework" id="vfplanding-vision-metrics" priority="high" status="pending">
+                <comment>Implement analytics plan (GA4 + PostHog) for funnel: landing → pricing → signup → checkout → subscription success; include product-qualified signals (audio upload, first transcript).</comment>
+            </node>
+        </node>
+        <node title="Brand & Narrative" id="vfplanding-brand" priority="high" status="pending">
+            <comment>Ensure messaging resonates with legal, media, enterprise segments highlighted in business foundation document.</comment>
+            <node title="Core Messaging refresh" id="vfplanding-brand-messaging" priority="high" status="pending">
+                <comment>Align hero, feature, and use-case copy with executive summary pillars: privacy-first AI, legal-grade transcripts, EU compliance, hybrid deployment.</comment>
+            </node>
+            <node title="Content Assets" id="vfplanding-brand-content" priority="medium" status="pending">
+                <comment>Produce comparative tables (human vs AI), industry use-case modules, testimonial pipeline, and downloadable whitepaper teaser for newsletter.</comment>
+            </node>
+            <node title="Visual Direction" id="vfplanding-brand-visual" priority="medium" status="pending">
+                <comment>Create design system tokens, imagery guidelines, and brand illustrations that support trust &amp; privacy narrative.</comment>
+            </node>
+        </node>
+        <node title="Product Experience Web" id="vfplanding-product" priority="critical" status="in-progress">
+            <comment>Deliver seamless flows for evaluate → try → buy → use. Based on landing-website-task and current bug backlog.</comment>
+            <node title="Acquisition Funnel" id="vfplanding-product-funnel" priority="high" status="pending">
+                <comment>Optimize homepage, feature breakdown, pricing CTAs. Run A/B tests for free vs pro CTAs, integrate trust badges and compliance proof.</comment>
+            </node>
+            <node title="Signup &amp; Auth" id="vfplanding-product-auth" priority="critical" status="in-progress">
+                <comment>Finalize session-backed signup/login with hashed passwords, validation, error states, forgot password roadmap, and onboarding welcome email.</comment>
+            </node>
+            <node title="Checkout Excellence" id="vfplanding-product-checkout" priority="critical" status="in-progress">
+                <comment>Stabilize Stripe setup with live-ready price IDs, confirm Payment Element renders, handle 3DS, send receipt webhooks, and build success page with next steps.</comment>
+            </node>
+            <node title="Download Distribution" id="vfplanding-product-downloads" priority="high" status="pending">
+                <comment>Implement signed binary hosting (GitHub Releases/S3), checksum verification, licensing key enforcement, and automated release pipeline bridging git push to downloadable artefact.</comment>
+            </node>
+            <node title="Post-Signup Activation" id="vfplanding-product-activation" priority="medium" status="pending">
+                <comment>Design onboarding email sequence, in-app checklist, and frictionless first transcript guide to drive trial conversion.</comment>
+            </node>
+        </node>
+        <node title="Commerce &amp; Monetization" id="vfplanding-commerce" priority="high" status="pending">
+            <comment>Ensure we can charge, manage plans, and report revenue aligned with business-goal filing.</comment>
+            <node title="Stripe Configuration" id="vfplanding-commerce-stripe" priority="high" status="pending">
+                <comment>Complete test/live price parity, tax settings, webhook signing, customer portal enablement, invoice branding, and refund policy hooks.</comment>
+            </node>
+            <node title="Billing UX" id="vfplanding-commerce-ux" priority="medium" status="pending">
+                <comment>Design plan comparison, upgrade/downgrade flows, VAT input, invoice history UI, email triggers for payment events.</comment>
+            </node>
+            <node title="Financial Reporting" id="vfplanding-commerce-reporting" priority="medium" status="pending">
+                <comment>Create RevOps dashboard: MRR/ARR, churn, LTV, trial-to-paid, channel attribution. Integrate with Stripe Sigma or analytics stack.</comment>
+            </node>
+        </node>
+        <node title="Trust, Compliance &amp; Legal" id="vfplanding-trust" priority="critical" status="pending">
+            <comment>Meet legal document drafting plan and privacy commitments from business foundation.</comment>
+            <node title="Policy Suite Delivery" id="vfplanding-trust-policies" priority="critical" status="pending">
+                <comment>Draft ToS, Privacy Policy, License Agreement using templates, adapt to transcription specifics, run professional review, publish with version control.</comment>
+            </node>
+            <node title="GDPR &amp; Security Signals" id="vfplanding-trust-gdpr" priority="high" status="pending">
+                <comment>Implement data request workflows, cookie consent banner, DPA readiness, encryption documentation, and security FAQ.</comment>
+            </node>
+            <node title="Legal Site Requirements" id="vfplanding-trust-legalpages" priority="high" status="pending">
+                <comment>Create Mentions Légales, CGV, warranty disclaimers, accessibility statement (RGAA baseline).</comment>
+            </node>
+        </node>
+        <node title="Growth &amp; Distribution" id="vfplanding-growth" priority="medium" status="pending">
+            <comment>Build inbound/outbound channels to fill funnel per marketing strategy.</comment>
+            <node title="SEO &amp; Content Engine" id="vfplanding-growth-seo" priority="medium" status="pending">
+                <comment>Keyword research for legal/audio niches, pillar pages, programmatic FAQs, structured data, blog calendar (12-week focus).</comment>
+            </node>
+            <node title="Demand Programs" id="vfplanding-growth-demand" priority="medium" status="pending">
+                <comment>Campaign plan: LinkedIn thought leadership, legal influencer partnerships, webinar series, newsletter automation (4% opt-in goal).</comment>
+            </node>
+            <node title="Conversion Optimization" id="vfplanding-growth-cro" priority="medium" status="pending">
+                <comment>Set up experimentation backlog: hero headline tests, pricing layout, social proof variations, lead magnet gating.</comment>
+            </node>
+        </node>
+        <node title="Engineering Excellence" id="vfplanding-engineering" priority="high" status="pending">
+            <comment>Keep codebase maintainable while shipping fast.</comment>
+            <node title="Architecture &amp; Infrastructure" id="vfplanding-engineering-arch" priority="medium" status="pending">
+                <comment>Document client/server architecture, finalize hosting (render/vercel), CI/CD pipeline, environment promotion, secrets management.</comment>
+            </node>
+            <node title="Quality &amp; Testing" id="vfplanding-engineering-qa" priority="medium" status="pending">
+                <comment>Introduce automated tests (Vitest, Playwright), integration suites (Stripe mocks), accessibility audits, performance budgets, incident logging.</comment>
+            </node>
+            <node title="Team Ops" id="vfplanding-engineering-ops" priority="low" status="pending">
+                <comment>Set contribution guidelines, branching model, code review SLAs, backlog management, release notes process.</comment>
+            </node>
+        </node>
+        <node title="Launch &amp; Post-Launch Plan" id="vfplanding-launch" priority="high" status="pending">
+            <comment>Define path to public announcement and immediate next iterations.</comment>
+            <node title="Beta Validation" id="vfplanding-launch-beta" priority="medium" status="pending">
+                <comment>Private beta with legal/media segments, collect qualitative feedback, iterate on onboarding.</comment>
+            </node>
+            <node title="Public Launch" id="vfplanding-launch-public" priority="medium" status="pending">
+                <comment>Launch checklist: site freeze, scaling checks, press kit, product hunt/LinkedIn campaigns, support schedules.</comment>
+            </node>
+            <node title="30/60/90 Day Roadmap" id="vfplanding-launch-3090" priority="medium" status="pending">
+                <comment>Plan incremental releases: self-serve teams, analytics dashboards, API launch, internationalization.</comment>
+            </node>
+        </node>
+    </node>
+</project_plan>

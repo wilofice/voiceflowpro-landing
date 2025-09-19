@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project_plan>
+    <node title="VoiceFlowPro Landing Immediate Execution Backlog" id="vfplanding-next-root" priority="critical" status="in-progress">
+        <comment>Priority actions for the next development cycle derived from business goals, landing task requirements, and recent Stripe/download/auth progress.</comment>
+        <node title="Stabilize Commerce Flow" id="vfplanding-next-commerce" priority="critical" status="in-progress">
+            <comment>Ensure signup → checkout → confirmation works end-to-end in test mode with production-ready safeguards.</comment>
+            <node title="Finalize Stripe Subscription Flow" id="vfplanding-next-stripe" priority="critical" status="in-progress">
+                <comment>Resolve client_secret retrieval, handle finalized invoices, store customer+subscription IDs, surface errors to UI, add success screen.</comment>
+            </node>
+            <node title="Implement Webhook Listener" id="vfplanding-next-webhook" priority="high" status="pending">
+                <comment>Create `/api/stripe/webhook` verifying signature, handling `invoice.payment_succeeded`, `invoice.payment_failed`, update user plans, send notifications.</comment>
+            </node>
+            <node title="Checkout UX Polish" id="vfplanding-next-checkout-ux" priority="medium" status="pending">
+                <comment>Add plan summary, VAT entry, error toasts, spinner states, redirect to onboarding upon success.</comment>
+            </node>
+        </node>
+        <node title="Download Delivery Pipeline" id="vfplanding-next-download" priority="high" status="pending">
+            <comment>Ship reliable software bundle distribution strategy.</comment>
+            <node title="Hosting Decision" id="vfplanding-next-download-hosting" priority="high" status="pending">
+                <comment>Choose GitHub Releases vs S3 + CloudFront, define folder structure, retention policy, access control.</comment>
+            </node>
+            <node title="Release Automation" id="vfplanding-next-download-automation" priority="medium" status="pending">
+                <comment>Integrate CI to build artifacts, publish checksums, update manifest JSON for `/api/downloads/manifest`.</comment>
+            </node>
+            <node title="Download Page Enhancements" id="vfplanding-next-download-page" priority="medium" status="pending">
+                <comment>Show release notes, version metadata, fallback messaging when artifact unavailable, track click events.</comment>
+            </node>
+        </node>
+        <node title="Authentication Hardening" id="vfplanding-next-auth" priority="high" status="pending">
+            <comment>Complete signup/login baseline for production.</comment>
+            <node title="Password Reset Flow" id="vfplanding-next-auth-reset" priority="high" status="pending">
+                <comment>Implement token-based reset email, rate limiting, expiration policy.</comment>
+            </node>
+            <node title="Email Verification" id="vfplanding-next-auth-verify" priority="medium" status="pending">
+                <comment>Optional but recommended before GA to reduce fraud; leverage transactional email provider.</comment>
+            </node>
+            <node title="Session Security" id="vfplanding-next-auth-security" priority="medium" status="pending">
+                <comment>Configure secure cookie, idle timeout, CSRF protection, audit logging.</comment>
+            </node>
+        </node>
+        <node title="Legal &amp; Compliance Workstream" id="vfplanding-next-legal" priority="high" status="pending">
+            <comment>Kick off legal document drafting plan.</comment>
+            <node title="Draft Key Policies" id="vfplanding-next-legal-draft" priority="high" status="pending">
+                <comment>Customize Terms, Privacy Policy, License using templates; cover audio ownership, AI processing, GDPR rights.</comment>
+            </node>
+            <node title="French Legal Requirements" id="vfplanding-next-legal-fr" priority="medium" status="pending">
+                <comment>Produce Mentions Légales, CGV, consumer protection disclosures, support CNIL documentation.</comment>
+            </node>
+            <node title="Professional Review" id="vfplanding-next-legal-review" priority="medium" status="pending">
+                <comment>Engage LegalStart/CGV-Expert budget &lt; €300; incorporate feedback, publish on site.</comment>
+            </node>
+        </node>
+        <node title="Analytics &amp; Measurement Setup" id="vfplanding-next-analytics" priority="medium" status="pending">
+            <comment>Lay foundation for KPIs.</comment>
+            <node title="Implement GA4 + PostHog" id="vfplanding-next-analytics-impl" priority="medium" status="pending">
+                <comment>Track page views, CTA clicks, signup events, checkout submissions, subscription success.</comment>
+            </node>
+            <node title="Dashboard Definition" id="vfplanding-next-analytics-dashboard" priority="low" status="pending">
+                <comment>Design KPI dashboard for leadership: traffic, conversions, revenue, newsletter signups.</comment>
+            </node>
+        </node>
+        <node title="Content &amp; SEO Sprint" id="vfplanding-next-content" priority="medium" status="pending">
+            <comment>Create launch-ready content assets.</comment>
+            <node title="Hero &amp; Pricing Copy" id="vfplanding-next-content-copy" priority="medium" status="pending">
+                <comment>Refine messaging to match legal/media target segments; highlight privacy, accuracy, compliance.</comment>
+            </node>
+            <node title="Use Case Pages" id="vfplanding-next-content-usecases" priority="low" status="pending">
+                <comment>Draft landing sections for legal teams, podcasters, media houses with CTA to signup.</comment>
+            </node>
+            <node title="Newsletter Lead Magnet" id="vfplanding-next-content-lead" priority="low" status="pending">
+                <comment>Create downloadable checklist/whitepaper to drive 4% opt-in goal.</comment>
+            </node>
+        </node>
+        <node title="Operational Foundations" id="vfplanding-next-ops" priority="medium" status="pending">
+            <comment>Put in place internal processes enabling scale.</comment>
+            <node title="CI/CD Pipeline" id="vfplanding-next-ops-cicd" priority="medium" status="pending">
+                <comment>Create automated test/build/deploy to staging &amp; production; include env secret management.</comment>
+            </node>
+            <node title="Support Readiness" id="vfplanding-next-ops-support" priority="low" status="pending">
+                <comment>Define support channels (email/chat), response SLAs, knowledge base skeleton, incident escalation.</comment>
+            </node>
+        </node>
+    </node>
+</project_plan>
